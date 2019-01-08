@@ -66,7 +66,7 @@ import cz.msebera.android.httpclient.Header;
 public class VipRechargeActivity extends Activity implements View.OnClickListener {
     private RelativeLayout rl_left, rl_rechage;
     private EditText et_vipcard, et_money;
-    private TextView tv_title, tv_vipname, tv_vipyue, tv_jifen, tv_dengji,mVipTvKamcard;
+    private TextView tv_title, tv_vipname, tv_vipyue, tv_jifen, tv_dengji, mVipTvKamcard;
     private MyGridViews myGridViews;
     private Activity ac;
     private String state = "现金";
@@ -128,13 +128,14 @@ public class VipRechargeActivity extends Activity implements View.OnClickListene
     private RelativeLayout rl_tvcard, rl_card;
     private TextView tv_tvcard;
     private boolean isVipcar = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viprecharge);
         ac = this;
-        app= (MyApplication) getApplication();
-        sysquanxian=app.getSysquanxian();
+        app = (MyApplication) getApplication();
+        sysquanxian = app.getSysquanxian();
         dialog = DialogUtil.loadingDialog(VipRechargeActivity.this, 1);
         paydialog = DialogUtil.payloadingDialog(VipRechargeActivity.this, 1);
         PreferenceHelper.write(MyApplication.context, "shoppay", "viptoast", "未查询到会员");
@@ -285,14 +286,14 @@ public class VipRechargeActivity extends Activity implements View.OnClickListene
         tv_jifen = (TextView) findViewById(R.id.viprecharge_et_jifen);
         tv_dengji = (TextView) findViewById(R.id.viprecharge_et_dengji);
         myGridViews = (MyGridViews) findViewById(R.id.gridview);
-        mVipTvKamcard=findViewById(R.id.vip_tv_kamcard);
+        mVipTvKamcard = findViewById(R.id.vip_tv_kamcard);
         mRadiogroup = (RadioGroup) findViewById(R.id.radiogroup);
         tv_title.setText("会员充值");
         rl_right = (RelativeLayout) findViewById(R.id.rl_right);
         rl_right.setOnClickListener(this);
         rl_tvcard = findViewById(R.id.rl_tvcard);
-        tv_tvcard =findViewById(R.id.tv_tvcard);
-        rl_card =findViewById(R.id.rl_etcard);
+        tv_tvcard = findViewById(R.id.tv_tvcard);
+        rl_card = findViewById(R.id.rl_etcard);
         if (Integer.parseInt(NullUtils.noNullHandle(sysquanxian.isvipcard).toString()) == 0) {
             rl_tvcard.setVisibility(View.GONE);
             rl_card.setVisibility(View.VISIBLE);
@@ -334,23 +335,23 @@ public class VipRechargeActivity extends Activity implements View.OnClickListene
                 } else {
                     if (isSuccess) {
                         if (CommonUtils.checkNet(getApplicationContext())) {
-                            if(isWx){
-                                if(sysquanxian.iswxpay==0){
+                            if (isWx) {
+                                if (sysquanxian.iswxpay == 0) {
                                     Intent mipca = new Intent(ac, MipcaActivityCapture.class);
-                                    mipca.putExtra("type","pay");
+                                    mipca.putExtra("type", "pay");
                                     startActivityForResult(mipca, 222);
-                                }else {
+                                } else {
                                     vipRecharge(DateUtils.getCurrentTime("yyyyMMddHHmmss"));
                                 }
-                            }else if(isZhifubao){
-                                if(sysquanxian.iszfbpay==0){
+                            } else if (isZhifubao) {
+                                if (sysquanxian.iszfbpay == 0) {
                                     Intent mipca = new Intent(ac, MipcaActivityCapture.class);
-                                    mipca.putExtra("type","pay");
+                                    mipca.putExtra("type", "pay");
                                     startActivityForResult(mipca, 222);
-                                }else {
+                                } else {
                                     vipRecharge(DateUtils.getCurrentTime("yyyyMMddHHmmss"));
                                 }
-                            }else {
+                            } else {
                                 vipRecharge(DateUtils.getCurrentTime("yyyyMMddHHmmss"));
                             }
                         } else {
@@ -394,12 +395,12 @@ public class VipRechargeActivity extends Activity implements View.OnClickListene
         final PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
         client.setCookieStore(myCookieStore);
         RequestParams map = new RequestParams();
-        map.put("auth_code",codedata);
-        map.put("UserID", PreferenceHelper.readString(ac, "shoppay", "UserID",""));
+        map.put("auth_code", codedata);
+        map.put("UserID", PreferenceHelper.readString(ac, "shoppay", "UserID", ""));
 //        （1会员充值7商品消费9快速消费11会员充次）
-        map.put("ordertype",1);
-        orderAccount=DateUtils.getCurrentTime("yyyyMMddHHmmss");
-        map.put("account",orderAccount );
+        map.put("ordertype", 1);
+        orderAccount = DateUtils.getCurrentTime("yyyyMMddHHmmss");
+        map.put("account", orderAccount);
         map.put("money", et_money.getText().toString());
 //        0=现金 1=银联 2=微信 3=支付宝
         if (isMoney) {
@@ -411,7 +412,7 @@ public class VipRechargeActivity extends Activity implements View.OnClickListene
         } else {
             map.put("payType", 3);
         }
-        client.setTimeout(120*1000);
+        client.setTimeout(120 * 1000);
         LogUtils.d("xxparams", map.toString());
         String url = UrlTools.obtainUrl(ac, "?Source=3", "PayOnLine");
         LogUtils.d("xxurl", url);
@@ -517,9 +518,9 @@ public class VipRechargeActivity extends Activity implements View.OnClickListene
                             if (bluetoothAdapter.isEnabled()) {
                                 BluetoothUtil.connectBlueTooth(MyApplication.context);
                                 BluetoothUtil.sendData(DayinUtils.dayin(jsonObject.getString("printContent")), jsonObject.getInt("printNumber"));
-                                ActivityStack.create().finishActivity(VipRechargeActivity.class);
+                                finish();
                             } else {
-                                ActivityStack.create().finishActivity(VipRechargeActivity.class);
+                                finish();
                             }
                         }
                     } else {

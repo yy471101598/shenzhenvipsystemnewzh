@@ -24,8 +24,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.shoppay.szvipnewzh.bean.SystemQuanxian;
-import com.shoppay.szvipnewzh.http.InterfaceBack;
-import com.shoppay.szvipnewzh.tools.ActivityStack;
 import com.shoppay.szvipnewzh.tools.BluetoothUtil;
 import com.shoppay.szvipnewzh.tools.CommonUtils;
 import com.shoppay.szvipnewzh.tools.DateUtils;
@@ -40,8 +38,6 @@ import com.shoppay.szvipnewzh.wxcode.MipcaActivityCapture;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-
-import static com.shoppay.szvipnewzh.tools.DialogUtil.money;
 
 /**
  * Created by songxiaotao on 2017/7/1.
@@ -60,7 +56,7 @@ public class SanFragment extends Fragment {
     private SystemQuanxian sysquanxian;
     private MyApplication app;
 //    private MsgReceiver msgReceiver;
-//    private Intent intent;
+    private Intent finishintent;
 //    private Dialog weixinDialog;
 
     @Nullable
@@ -72,6 +68,7 @@ public class SanFragment extends Fragment {
         initView(view);
         dialog = DialogUtil.loadingDialog(getActivity(), 1);
         paydialog = DialogUtil.payloadingDialog(getActivity(), 1);
+        finishintent=new Intent("com.shoppay.wy.fastfinish");
         mRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -235,15 +232,15 @@ public class SanFragment extends Fragment {
                         Toast.makeText(getActivity(), jso.getString("msg"), Toast.LENGTH_LONG).show();
                         JSONObject jsonObject = (JSONObject) jso.getJSONArray("print").get(0);
                         if (jsonObject.getInt("printNumber") == 0) {
-                            ActivityStack.create().finishActivity(FastConsumptionActivity.class);
+                            getActivity().sendBroadcast(finishintent);
                         } else {
                             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                             if (bluetoothAdapter.isEnabled()) {
                                 BluetoothUtil.connectBlueTooth(MyApplication.context);
                                 BluetoothUtil.sendData(DayinUtils.dayin(jsonObject.getString("printContent")), jsonObject.getInt("printNumber"));
-                                ActivityStack.create().finishActivity(FastConsumptionActivity.class);
+                                getActivity().sendBroadcast(finishintent);
                             } else {
-                                ActivityStack.create().finishActivity(FastConsumptionActivity.class);
+                                getActivity().sendBroadcast(finishintent);
                             }
                         }
 

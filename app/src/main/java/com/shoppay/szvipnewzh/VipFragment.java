@@ -38,7 +38,6 @@ import com.shoppay.szvipnewzh.bean.VipInfoMsg;
 import com.shoppay.szvipnewzh.card.ReadCardOpt;
 import com.shoppay.szvipnewzh.card.ReadCardOptHander;
 import com.shoppay.szvipnewzh.http.InterfaceBack;
-import com.shoppay.szvipnewzh.tools.ActivityStack;
 import com.shoppay.szvipnewzh.tools.BluetoothUtil;
 import com.shoppay.szvipnewzh.tools.CommonUtils;
 import com.shoppay.szvipnewzh.tools.DateUtils;
@@ -145,7 +144,7 @@ public class VipFragment extends Fragment  {
     private String orderAccount;
     private SystemQuanxian sysquanxian;
     private MyApplication app;
-    //    private Intent intent;
+        private Intent finishintent;
 //    private Dialog weixinDialog;
 
     @Nullable
@@ -162,7 +161,7 @@ public class VipFragment extends Fragment  {
         PreferenceHelper.write(MyApplication.context, "shoppay", "jifenpercent", "123");
         PreferenceHelper.write(MyApplication.context, "shoppay", "viptoast", "未查询到会员");
 
-
+        finishintent=new Intent("com.shoppay.wy.fastfinish");
         // 注册广播
         msgReceiver = new MsgReceiver();
         IntentFilter iiiff = new IntentFilter();
@@ -639,15 +638,15 @@ public class VipFragment extends Fragment  {
                         Toast.makeText(getActivity(), jso.getString("msg"), Toast.LENGTH_LONG).show();
                         JSONObject jsonObject = (JSONObject) jso.getJSONArray("print").get(0);
                         if (jsonObject.getInt("printNumber") == 0) {
-                            ActivityStack.create().finishActivity(FastConsumptionActivity.class);
+                            getActivity().sendBroadcast(finishintent);
                         } else {
                             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                             if (bluetoothAdapter.isEnabled()) {
                                 BluetoothUtil.connectBlueTooth(MyApplication.context);
                                 BluetoothUtil.sendData(DayinUtils.dayin(jsonObject.getString("printContent")), jsonObject.getInt("printNumber"));
-                                ActivityStack.create().finishActivity(FastConsumptionActivity.class);
+                                getActivity().sendBroadcast(finishintent);
                             } else {
-                                ActivityStack.create().finishActivity(FastConsumptionActivity.class);
+                                getActivity().sendBroadcast(finishintent);
                             }
                         }
 

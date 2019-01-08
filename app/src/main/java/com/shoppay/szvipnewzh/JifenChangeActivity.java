@@ -440,9 +440,9 @@ public class JifenChangeActivity extends Activity {
                             if (bluetoothAdapter.isEnabled()) {
                                 BluetoothUtil.connectBlueTooth(MyApplication.context);
                                 BluetoothUtil.sendData(DayinUtils.dayin(jsonObject.getString("printContent")), jsonObject.getInt("printNumber"));
-                                ActivityStack.create().finishActivity(JifenChangeActivity.class);
+                              finish();
                             } else {
-                                ActivityStack.create().finishActivity(JifenChangeActivity.class);
+                             finish();
                             }
                         }
                     } else {

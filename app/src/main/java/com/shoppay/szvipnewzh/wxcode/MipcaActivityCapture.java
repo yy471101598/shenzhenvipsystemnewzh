@@ -136,14 +136,14 @@ public class MipcaActivityCapture extends Activity implements Callback {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
         String resultString = result.getText();
-        LogUtils.d("xxcode",resultString);
+        LogUtils.d("xxcode", resultString);
         if (resultString.equals("")) {
             Toast.makeText(MipcaActivityCapture.this, "Scan failed!", Toast.LENGTH_SHORT).show();
         } else {
-            Intent intent=new Intent();
-            intent.putExtra("codedata",resultString);
-            setResult(RESULT_OK,intent);
-            ActivityStack.create().finishActivity(ac);
+            Intent intent = new Intent();
+            intent.putExtra("codedata", resultString);
+            setResult(RESULT_OK, intent);
+            finish();
 //			Intent resultIntent = new Intent();
 //			Bundle bundle = new Bundle();
 //			bundle.putString("result", resultString);
@@ -249,7 +249,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 
     @OnClick(R.id.rl_left)
     public void onViewClicked() {
-        ActivityStack.create().finishActivity(ac);
+        finish();
 
     }
 }

@@ -443,9 +443,9 @@ public class NumConsumptionActivity extends Activity implements View.OnClickList
                             if (bluetoothAdapter.isEnabled()) {
                                 BluetoothUtil.connectBlueTooth(MyApplication.context);
                                 BluetoothUtil.sendData(DayinUtils.dayin(jsonObject.getString("printContent")), jsonObject.getInt("printNumber"));
-                                ActivityStack.create().finishActivity(NumConsumptionActivity.class);
+                               finish();
                             } else {
-                                ActivityStack.create().finishActivity(NumConsumptionActivity.class);
+                             finish();
                             }
                         }
                     } else {

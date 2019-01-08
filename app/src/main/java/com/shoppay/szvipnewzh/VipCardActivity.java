@@ -498,9 +498,9 @@ public class VipCardActivity extends Activity implements View.OnClickListener {
                             if (bluetoothAdapter.isEnabled()) {
                                 BluetoothUtil.connectBlueTooth(MyApplication.context);
                                 BluetoothUtil.sendData(DayinUtils.dayin(jsonObject.getString("printContent")), jsonObject.getInt("printNumber"));
-                                ActivityStack.create().finishActivity(ac);
+                             finish();
                             } else {
-                                ActivityStack.create().finishActivity(ac);
+                                finish();
                             }
                         }
                     } else {
