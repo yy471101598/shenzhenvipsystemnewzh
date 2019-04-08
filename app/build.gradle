@@ -53,6 +53,8 @@ dependencies {
     compile 'com.github.markzhai:blockcanary-android:1.5.0'
     compile files('libs/volly-1.0.11.jar')
     compile(name: 'SunmiPayService', ext: 'aar')
+    compile files('libs/libammsdk.jar')
+    compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
 }
 repositories {
     flatDir {

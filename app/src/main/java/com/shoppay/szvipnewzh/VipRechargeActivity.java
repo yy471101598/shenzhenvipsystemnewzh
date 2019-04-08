@@ -325,8 +325,7 @@ public class VipRechargeActivity extends Activity implements View.OnClickListene
         rl_rechage.setOnClickListener(new NoDoubleClickListener() {
             @Override
             protected void onNoDoubleClick(View view) {
-                if (et_vipcard.getText().toString().equals("")
-                        || et_vipcard.getText().toString() == null) {
+                if (!isSuccess) {
                     Toast.makeText(getApplicationContext(), "请输入会员卡号",
                             Toast.LENGTH_SHORT).show();
                 } else if (et_money.getText().toString() == null || et_money.getText().toString().equals("")) {
